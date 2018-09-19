@@ -28,7 +28,6 @@ type BlockChain struct {
 //}
 
 func (blockchain *BlockChain) Iterator() *BlockChainIterator {
-
 	return &BlockChainIterator{blockchain.Tip, blockchain.DB}
 }
 
@@ -39,6 +38,7 @@ func DBExists() bool {
 	return true
 }
 
+// 遍历输出所有区块的信息
 func (blc *BlockChain) PrintChain() {
 	var block *Block
 	var currentHash []byte = blc.Tip
@@ -52,7 +52,7 @@ func (blc *BlockChain) PrintChain() {
 				fmt.Printf("PrevBlockHash：%d\n", block.PrevBlockHash)
 				fmt.Printf("Data：%d\n", block.Data)
 				fmt.Printf("TimeStamp：%d\n", block.TimeStamp)
-				fmt.Printf("TimeStamp：%d\n", time.Unix(block.TimeStamp, 0).Format("2006-01-02 03:04:05 PM"))
+				fmt.Printf("TimeStamp：%d\n", time.Unix(block.TimeStamp, 0).Format("1983-07-07 07:07:07 PM"))
 				fmt.Printf("Hash：%d\n", block.Hash)
 				fmt.Printf("Nonce：%d\n", block.Nonce)
 			}

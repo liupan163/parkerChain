@@ -24,6 +24,7 @@ func NewCoinbaseTransaction(address string) *Transaction {
 	txOutput := &TXOutput{10, address}
 	txCoinbase := &Transaction{[]byte{}, []*TXInput{txInput}, []*TXOutput{txOutput}}
 	txCoinbase.HashTransaction() //设置hash
+	return txCoinbase
 }
 
 func (tx *Transaction) HashTransaction() {
@@ -34,7 +35,7 @@ func (tx *Transaction) HashTransaction() {
 		log.Panic(err)
 	}
 	hash := sha256.Sum256(result.Bytes())
-	tx.TxHash = hash
+	tx.TxHash = hash[:]
 }
 
 func NewSimpleTransaction(from string, to string, amount int, blockchain *BlockChain, txs []*Transaction) *Transaction {
@@ -44,14 +45,13 @@ func NewSimpleTransaction(from string, to string, amount int, blockchain *BlockC
 	var txInputs []*TXInput
 	var txOutputs []*TXOutput
 
-	for txHash,indexArray := range spendableUTXODic{
-		txHashBytes,_ :=hex.DecodeString(txHash)
-		for _,index :=range indexArray{
-			txInput := &TXOutput{bytes, index, from}
+	for txHash, indexArray := range spendableUTXODic {
+		txHashBytes, _ := hex.DecodeString(txHash)
+		for _, index := range indexArray {
+			txInput := &TXInput{txHashBytes, index, from}
 			txInputs = append(txInputs, txInput)
 		}
 	}
-
 
 	//转账
 	txOutput := &TXOutput{int64(amount), to}
